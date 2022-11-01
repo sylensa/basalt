@@ -3,7 +3,7 @@ const authority = "";
 const imgBase = "";
 const hsVendor = 88;
 String mapKey = 'key';
-var authorizationKey = "067e34f08a9951201e23e02f7098a9d8";
+var authorizationKey = "33e41ba7a2f1bb4b087802d25a281c09";
 var userToken = "";
 var headers = {"authorization": "Bearer " + userToken};
 
