@@ -204,7 +204,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                           decoration: textDecorSuffix(
                               size: 15,
                               icon: Icon(Icons.search,color: Colors.grey),
-                              suffIcon:IconButton(onPressed: ()async{
+                              suffIcon:IconButton(
+                                padding: EdgeInsets.zero,
+                                onPressed: ()async{
                                 final config = CalendarDatePicker2WithActionButtonsConfig(
                                   calendarType: CalendarDatePicker2Type.range,
                                   selectedDayHighlightColor: Colors.purple[800],

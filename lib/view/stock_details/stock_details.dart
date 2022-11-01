@@ -60,9 +60,22 @@ class _StockDetailsState extends State<StockDetails> {
   }
 
   getStockDetailsWidget(){
-
+    if(!isOnline){
+      return Expanded(
+        child: Center(
+            child:  NoInternet(onTryAgainClicked: () async{
+              setState(() {
+                progressCode = true;
+                isOnline = true;
+                listEodStockDetails.clear();
+              });
+              await  getEODReport();
+            })
+        ),
+      );
+    }else{
       if(listEodStockDetails.isNotEmpty){
-        return     Expanded(
+        return Expanded(
           child: SmartRefresher(
             reverse: false,
             enablePullDown: true,
@@ -74,7 +87,7 @@ class _StockDetailsState extends State<StockDetails> {
                   body =  Text("No more Data");
                 }
                 else if(mode==LoadStatus.loading){
-                  body =  CupertinoActivityIndicator();
+                  body =  CircularProgressIndicator.adaptive();
                 }
                 else if(mode == LoadStatus.failed){
                   body = Text("Load Failed!Click retry!");
@@ -240,7 +253,7 @@ class _StockDetailsState extends State<StockDetails> {
 
                 }),
           ),
-        ) ;
+        );
       }else if(progressCode){
         return  Expanded(child: Center(child: progress()));
       }else{
@@ -268,7 +281,7 @@ class _StockDetailsState extends State<StockDetails> {
           ],
         ));
       }
-
+    }
 
 
 

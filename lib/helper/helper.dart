@@ -335,7 +335,7 @@ InputDecoration textDecorSuffix({Color fillColor = Colors.white,String? hint, Wi
     labelText: label,
     filled: true,
     fillColor: fillColor,
-    contentPadding: EdgeInsets.fromLTRB(20.0, top, 10.0, 12.0),
+    contentPadding: EdgeInsets.fromLTRB(20.0, top, 0.0, 12.0),
   );
 }
 
