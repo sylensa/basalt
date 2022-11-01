@@ -3,6 +3,8 @@ import 'package:basalt/controller/market_stack_controller.dart';
 import 'package:basalt/helper/helper.dart';
 import 'package:basalt/model/market_stock_model.dart';
 import 'package:basalt/view/widgets/multi_purpose_card.dart';
+import 'package:basalt/view/widgets/no_internet.dart';
+import 'package:basalt/view/widgets/p_button.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -36,18 +38,17 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  getAllResultWidget(bool isOnline){
+  getAllResultWidget(){
     if(!isOnline){
       return Expanded(
         child: Center(
-          child: Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10)
-            ),
-            child: sText("No Internet Connection",color: Colors.red),
-          ),
+          child:  NoInternet(onTryAgainClicked: () async{
+            setState(() {
+              progressCode = true;
+              isOnline = true;
+            });
+           await  getReport();
+          })
         ),
       );
     }else{
@@ -73,7 +74,28 @@ class _HomePageState extends State<HomePage> {
       }else if(progressCode){
         return  Expanded(child: Center(child: progress()));
       }else{
-        return Expanded(child: Center(child: sText("Empty Results")));
+        return Expanded(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(child: sText("Empty Results")),
+            SizedBox(height: 20,),
+            SizedBox(
+              width: 150,
+              height: 40,
+              child: PButton(
+                  rounded: false,
+                  textColor: Colors.white,
+                  text: 'TRY AGAIN',
+                  onPressed: ()async{
+                    setState(() {
+                      progressCode = true;
+                      isOnline = true;
+                    });
+                    await  getReport();
+                  }),
+            )
+          ],
+        ));
       }
     }
 
@@ -115,7 +137,7 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   Widget build(BuildContext context) {
-    final isOnline = Provider.of<ConnectivityProvider>(context).isOnline;
+     isOnline = Provider.of<ConnectivityProvider>(context).isOnline;
       print("object:$isOnline");
     return Scaffold(
       appBar: AppBar(
@@ -214,7 +236,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             SizedBox(height: 20,),
-              getAllResultWidget(isOnline)
+              getAllResultWidget()
 
 
           ],
