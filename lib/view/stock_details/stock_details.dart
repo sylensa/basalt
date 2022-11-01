@@ -128,122 +128,38 @@ class _StockDetailsState extends State<StockDetails> {
                         children: [
                           Column(
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  sText("Open:",size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].open}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
+                              stockCardWidget(key:"Open:", value: listEodStockDetails[index].open),
                               SizedBox(height: 5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  sText("High:",align: TextAlign.left,size: 12),
-                                  sText("${listEodStockDetails[index].high}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
+                              stockCardWidget(key:"High:", value: listEodStockDetails[index].high),
                               SizedBox(height: 5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  sText("Low:",align: TextAlign.left,size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].low}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
+                              stockCardWidget(key:"Low:", value: listEodStockDetails[index].low),
                               SizedBox(height: 5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  sText("Close:",size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].close}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
+                              stockCardWidget(key:"Close:", value: listEodStockDetails[index].close),
+                            ],
+                          ),
+                          SizedBox(width: 10,),
+                          Column(
+                            children: [
+                              stockCardWidget(key:"Adj High:", value: listEodStockDetails[index].adjHigh),
+                              SizedBox(height: 5,),
+                              stockCardWidget(key:"Adj Low:", value: listEodStockDetails[index].adjLow),
+                              SizedBox(height: 5,),
+                              stockCardWidget(key:"Adj Close:", value: listEodStockDetails[index].adjClose),
+                              SizedBox(height: 5,),
+                              stockCardWidget(key:"Adj Open:", value: listEodStockDetails[index].adjOpen),
 
                             ],
                           ),
                           SizedBox(width: 10,),
                           Column(
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  sText("Adj High:",size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].adjHigh}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
+                              stockCardWidget(key:"Split Factor:", value: listEodStockDetails[index].splitFactor),
                               SizedBox(height: 5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  sText("Adj Low:",size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].adjLow}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
+                              stockCardWidget(key:"Dividend:", value: listEodStockDetails[index].dividend),
                               SizedBox(height: 5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  sText("Adj Close:",size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].adjClose}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
+                              stockCardWidget(key:"Symbol:", value: listEodStockDetails[index].symbol),
                               SizedBox(height: 5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  sText("Adj Open:",size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].adjOpen}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
-
-                            ],
-                          ),
-                          SizedBox(width: 10,),
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  sText("Split Factor:",size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].splitFactor}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
-                              SizedBox(height: 5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  sText("Dividend:",size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].dividend}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
-                              SizedBox(height: 5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  sText("Symbol:",size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].symbol}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
-                              SizedBox(height: 5,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  sText("Ex:",size: 12),
-                                  SizedBox(width: 5,),
-                                  sText("${listEodStockDetails[index].exchange}",size: 12,weight: FontWeight.bold),
-                                ],
-                              ),
+                              stockCardWidget(key:"Ex:", value: listEodStockDetails[index].exchange),
                               SizedBox(height: 5,),
                             ],
                           ),
@@ -285,6 +201,17 @@ class _StockDetailsState extends State<StockDetails> {
 
 
 
+  }
+
+  stockCardWidget({String? key, dynamic value}){
+    return    Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        sText("Open:",size: 12),
+        SizedBox(width: 5,),
+        sText("${value != null ? value : "N/A"}",size: 12,weight: FontWeight.bold),
+      ],
+    );
   }
   @override
   void initState() {
