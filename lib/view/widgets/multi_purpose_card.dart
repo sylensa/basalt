@@ -76,7 +76,7 @@ class _MultiPurposeCourseCardState extends State<MultiPurposeCourseCard> {
                   ),
                 ),
                 SizedBox(width: 24.0),
-
+                Icon(Icons.arrow_forward_ios,color: Colors.grey,)
 
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:basalt/helper/helper.dart';
 import 'package:basalt/helper/hide.dart';
+import 'package:basalt/model/eod_stock_details_model.dart';
 import 'package:basalt/model/market_stock_model.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -8,55 +9,41 @@ class MarketStockReportController{
 
   Future<List<StockReport>> getStockMarketReport()async {
     List<StockReport> listStockReports = [];
-    final bool isConnected = await InternetConnectionChecker().hasConnection;
-    print("isConnected:$isConnected");
-    if(isConnected){
       try{
-        isOnline = isConnected;
-        var js = await doGet('tickers?access_key=$authorizationKey');
+        var js = await doGet('tickers?access_key=$authorizationKey&limit=10');
         print("reports response : ${ js["data"]}");
         if (js["data"].isNotEmpty) {
           for(int i =0; i < js["data"].length; i++){
-            StockReport groupListData = StockReport.fromJson(js["data"][i]);
-            listStockReports.add(groupListData);
+            StockReport stockReport = StockReport.fromJson(js["data"][i]);
+            listStockReports.add(stockReport);
           }
           return listStockReports;
         }else{
-          toastMessage("${js["message"]}");
-
           return listStockReports;
         }
 
       }catch(e){
-        toastMessage("$e");
-        print("$e");
         return listStockReports;
       }
 
-    }else{
-      isOnline = isConnected;
-      return listStockReports;
-    }
-
   }
-  Future<List<StockReport>> getStockMarketReportSearch({String? symbol,DateTime? dateTo, DateTime? dateFrom})async {
-    List<StockReport> listStockReports = [];
+
+  Future<List<EodStockDetails>> getStockMarketReportDetails({String? symbol,int limit = 10,int offset = 0})async {
+    List<EodStockDetails> listEodStockDetails = [];
     try{
-    var js = await doGet('tickers/$symbol?access_key=$authorizationKey&date_from=$dateFrom&date_to=$dateTo');
-    print("reports response : ${ js["data"]}");
-    if (js["data"].isNotEmpty) {
-      for(int i =0; i < js["data"].length; i++){
-        StockReport groupListData = StockReport.fromJson(js["data"][i]);
-        listStockReports.add(groupListData);
+    var js = await doGet('tickers/$symbol/eod?access_key=$authorizationKey&limit=$limit&offset=$offset');
+    print("eod reports response : ${ js["data"]["eod"]}");
+    if (js["data"]["eod"].isNotEmpty) {
+      for(int i =0; i < js["data"]["eod"].length; i++){
+        EodStockDetails eodStockDetails = EodStockDetails.fromJson(js["data"]["eod"][i]);
+        listEodStockDetails.add(eodStockDetails);
       }
-      return listStockReports;
+      return listEodStockDetails;
     }else{
-      toastMessage("${js["message"]}");
-      return listStockReports;
+      return listEodStockDetails;
     }
     }catch(e){
-      toastMessage("Failed");
-      return listStockReports;
+      return listEodStockDetails;
     }
   }
 }

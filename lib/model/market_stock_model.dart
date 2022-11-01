@@ -4,12 +4,12 @@
 
 import 'dart:convert';
 
-MarketStockReport marketStockReportFromJson(String str) => MarketStockReport.fromJson(json.decode(str));
+MarketStockReportModel marketStockReportFromJson(String str) => MarketStockReportModel.fromJson(json.decode(str));
 
-String marketStockReportToJson(MarketStockReport data) => json.encode(data.toJson());
+String marketStockReportToJson(MarketStockReportModel data) => json.encode(data.toJson());
 
-class MarketStockReport {
-  MarketStockReport({
+class MarketStockReportModel {
+  MarketStockReportModel({
     this.pagination,
     this.data,
   });
@@ -17,7 +17,7 @@ class MarketStockReport {
   Pagination? pagination;
   List<StockReport>? data;
 
-  factory MarketStockReport.fromJson(Map<String, dynamic> json) => MarketStockReport(
+  factory MarketStockReportModel.fromJson(Map<String, dynamic> json) => MarketStockReportModel(
     pagination: json["pagination"] == null ? null : Pagination.fromJson(json["pagination"]),
     data: json["data"] == null ? null : List<StockReport>.from(json["data"].map((x) => StockReport.fromJson(x))),
   );

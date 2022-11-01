@@ -2,11 +2,13 @@ import 'package:basalt/controller/connectivity_provider.dart';
 import 'package:basalt/controller/market_stack_controller.dart';
 import 'package:basalt/helper/helper.dart';
 import 'package:basalt/model/market_stock_model.dart';
+import 'package:basalt/view/stock_details/stock_details.dart';
 import 'package:basalt/view/widgets/multi_purpose_card.dart';
 import 'package:basalt/view/widgets/no_internet.dart';
 import 'package:basalt/view/widgets/p_button.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -17,10 +19,12 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   DateTime? dateFrom;
   DateTime? dateTo;
   bool progressCode= true;
+  late AppLifecycleState appLifecycle;
+
   List<StockReport> listStockReports = [];
   StockReport? selectedStockReport ;
   List<DateTime?> _dialogCalendarPickerValue = [
@@ -63,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                         title: listStockReports[index].name!,
                         subTitle: listStockReports[index].stockExchange!.name!,
                         onTap: (){
-
+                          goTo(context, StockDetails(stockReport: listStockReports[index],));
                         },
                       ),
                       SizedBox(height: 20,)
@@ -138,7 +142,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
      isOnline = Provider.of<ConnectivityProvider>(context).isOnline;
-      print("object:$isOnline");
+     WidgetsBinding.instance.addPostFrameCallback((_) {
+       if(!isOnline){
+         showNoConnectionToast(context);
+       }
+     });
     return Scaffold(
       appBar: AppBar(
         title: sText("Basalt",color: Colors.white,weight: FontWeight.bold,size: 20),
@@ -174,6 +182,8 @@ class _HomePageState extends State<HomePage> {
                         setState(() {
                           selectedStockReport = selected;
                         });
+                        goTo(context, StockDetails(stockReport: selectedStockReport!,));
+
                       },
                       fieldViewBuilder:
                           (context, controller, node, onSubmit) {

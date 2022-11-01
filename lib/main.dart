@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
     create: (context) => ConnectivityProvider(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Basalt',
         theme: ThemeData(
           primarySwatch: Colors.blue,
